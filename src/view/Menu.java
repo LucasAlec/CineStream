@@ -19,12 +19,17 @@ public class Menu {
         boolean continuar = true;
 
         while (continuar) {
-            System.out.println("\nBem-vindo(a) ao CineStream");
-            System.out.println("\n==== Menu Principal ====");
-            System.out.println("1 - Gerenciar Filmes");
-            System.out.println("2 - Gerenciar Séries");
-            System.out.println("3 - Sair");
-            System.out.print("Escolha uma opção: ");
+            System.out.println("\n+--------------------------------------------------+");
+            System.out.println("|          🍿 Bem-vindo(a) ao CineStream! 🍿       |");
+            System.out.println("+--------------------------------------------------+");
+            System.out.println("|                📋 Menu Principal                 |");
+            System.out.println("+==================================================+");
+            System.out.println("|  1️⃣ → 🎬 Gerenciar Filmes                        |");
+            System.out.println("|  2️⃣ → 📺 Gerenciar Séries                        |");
+            System.out.println("|  3️⃣ → 🚪 Sair                                    |");
+            System.out.println("+==================================================+");
+            System.out.print("📝 Escolha uma opção: ");
+
 
             try {
                 int opcao = Integer.parseInt(scanner.nextLine());
@@ -38,13 +43,13 @@ public class Menu {
                         break;
                     case 3:
                         continuar = false;
-                        System.out.println("Saindo...");
+                        System.out.println("👋 Saindo... Até logo!");
                         break;
                     default:
                         System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida. Por favor, digite um número.");
+                System.out.println("❌ Entrada inválida. Por favor, digite um número.");
             }
         }
 

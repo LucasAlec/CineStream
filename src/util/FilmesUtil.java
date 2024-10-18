@@ -20,7 +20,7 @@ public class FilmesUtil {
         System.out.println(linha);
         System.out.printf("| %-36s |\n", titulo);
         System.out.printf("| %-36s |\n", genero);
-        System.out.printf("| %-36s |\n", avaliacao);
+        System.out.printf("| %-36s \n", avaliacao);
         System.out.printf("| %-36s |\n", ano);
         System.out.printf("| %-36s |\n", streaming);
         System.out.printf("| %-36s |\n", duracao);

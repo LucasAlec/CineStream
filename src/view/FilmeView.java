@@ -3,6 +3,8 @@ package view;
 import model.Filme;
 import service.filme.FilmeService;
 import util.FilmesUtil;
+import util.GeneroUtil;
+import util.PaginacaoUtil;
 
 import java.util.List;
 import java.util.Scanner;
@@ -19,13 +21,17 @@ public class FilmeView {
         boolean continuar = true;
 
         while (continuar) {
-            System.out.println("\n==== Submenu de Filmes ====");
-            System.out.println("1 - Buscar filmes por nome");
-            System.out.println("2 - Buscar filmes por ano");
-            System.out.println("3 - Sugerir filmes por gênero");
-            System.out.println("4 - Mostrar o melhor filme");
-            System.out.println("5 - Voltar ao menu principal");
-            System.out.print("Escolha uma opção: ");
+
+            System.out.println("\n+--------------------------------------------------+");
+            System.out.println("|                 🎬   Filmes   🎬                 |");
+            System.out.println("+--------------------------------------------------+");
+            System.out.println("|  1️⃣ → 🔎 Buscar filmes por nome                  |");
+            System.out.println("|  2️⃣ → 📅 Buscar por ano de estréia               |");
+            System.out.println("|  3️⃣ → 🎭 Sugerir por gênero                      |");
+            System.out.println("|  4️⃣ → 🏆 Melhor filme                            |");
+            System.out.println("|  5️⃣ → 🔄 Voltar ao menu principal                |");
+            System.out.println("+--------------------------------------------------+");
+            System.out.print("📝 Escolha uma opção: ");
 
             try {
                 int opcao = Integer.parseInt(scanner.nextLine());
@@ -51,7 +57,7 @@ public class FilmeView {
                         System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida. Por favor, digite um número.");
+                System.out.println(" ❌ Entrada inválida. Por favor, digite um número.");
             }
         }
     }
@@ -83,15 +89,35 @@ public class FilmeView {
     }
 
     private void sugerirFilmesPorGenero(Scanner scanner) {
-        System.out.print("Digite o gênero para sugerir filmes: ");
-        String genero = scanner.nextLine();
-        List<Filme> filmes = filmeService.sugerirFilmesPorGenero(genero);
-        if (filmes.isEmpty()) {
-            System.out.println("Nenhum filme encontrado para o gênero informado.");
+        // Lista de gêneros disponíveis (pode ser gerada dinamicamente a partir dos filmes)
+        List<String> generosDisponiveis = List.of("Action", "Adventure", "Comedy", "Drama",
+                "Horror", "Mystery", "Sci-Fi", "Fantasy",
+                "Romance", "Crime");
+
+        // Usa a utilidade para exibir os gêneros disponíveis em uma caixa formatada
+        GeneroUtil.exibirGeneros(generosDisponiveis);
+
+        System.out.print("Digite o número do gênero para sugerir filmes: ");
+        int escolha = Integer.parseInt(scanner.nextLine());
+
+        // Valida se a escolha é válida
+        if (escolha > 0 && escolha <= generosDisponiveis.size()) {
+            String generoSelecionado = generosDisponiveis.get(escolha - 1);
+
+            // Sugerir filmes com base no gênero selecionado
+            List<Filme> filmes = filmeService.sugerirFilmesPorGenero(generoSelecionado);
+
+            if (!filmes.isEmpty()) {
+                // Usa a utilidade de paginação para exibir os filmes
+                PaginacaoUtil.exibirFilmesPaginados(filmes, scanner);
+            } else {
+                System.out.println("⚠️ Nenhum filme encontrado para o gênero selecionado.");
+            }
         } else {
-            filmes.forEach(FilmesUtil::exibirInfoFilme);
+            System.out.println("⚠️ Opção inválida. Por favor, escolha um número da lista.");
         }
     }
+
 
     private void mostrarMelhorFilme() {
         Filme melhorFilme = filmeService.encontrarMelhorFilme();

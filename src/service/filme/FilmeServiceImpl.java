@@ -50,13 +50,14 @@ public class FilmeServiceImpl implements FilmeService {
     @Override
     public Filme encontrarMelhorFilme() {
         return filmes.stream()
-                .max((f1, f2) -> {
+                .reduce((f1, f2) -> {
                     // Usar a utilidade para converter a quantidade de avaliações
                     double score1 = f1.getAvaliacao() * QuantidadeAvaliacoesUtil.converter(f1.getQuantidadeAvaliacoes());
                     double score2 = f2.getAvaliacao() * QuantidadeAvaliacoesUtil.converter(f2.getQuantidadeAvaliacoes());
-                    return Double.compare(score1, score2);
+                    return score1 > score2 ? f1 : f2;
                 }).orElse(null);
     }
+
 
     // Método auxiliar para converter a quantidade de avaliações de String para número
     private double parseQuantidadeAvaliacoes(String quantidadeAvaliacoes) {
