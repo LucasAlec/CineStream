@@ -2,16 +2,22 @@ package view;
 
 
 import service.filme.FilmeService;
+import service.serie.SerieService;
+import service.serie.SerieServiceImpl;
 
 import java.util.Scanner;
 
 public class Menu {
 
     private FilmeView filmeView;
+    private SerieView serieView;
 
-    public Menu(FilmeService filmeService) {
+    public Menu(FilmeService filmeService, SerieServiceImpl serieService) {
         this.filmeView = new FilmeView(filmeService);
-        //this.serieView = new SerieView(new SerieServiceImpl(carregarDados));
+        this.serieView = new SerieView(serieService);
+
+        //this.serieView = new SerieView(new SerieServiceImpl(carregarDados.toString()));
+
     }
 
     public void exibirMenuPrincipal() {
@@ -39,7 +45,8 @@ public class Menu {
                         filmeView.exibirFilmeView();
                         break;
                     case 2:
-                        System.out.println("Implementar SerieView");
+                        serieView.exibirSerieView();
+                        //System.out.println("Implementar SerieView");
                         break;
                     case 3:
                         continuar = false;

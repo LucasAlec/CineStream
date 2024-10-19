@@ -1,7 +1,7 @@
 package service.filme;
 
 import database.CarregarDados;
-import database.CarregarDadosImpl;
+import database.CarregarDadosFilmesImpl;
 import model.Filme;
 import util.QuantidadeAvaliacoesUtil;
 
@@ -15,8 +15,8 @@ public class FilmeServiceImpl implements FilmeService {
 
     // Construtor usando apenas o caminho para o CSV de filmes
     public FilmeServiceImpl(String caminhoCsvFilmes) {
-        CarregarDados carregarDados = new CarregarDadosImpl(caminhoCsvFilmes);
-        this.filmes = carregarDados.carregarFilmes();
+        CarregarDados carregarDados = new CarregarDadosFilmesImpl(caminhoCsvFilmes);
+        this.filmes = carregarDados.carregarDadosDoArquivo();
     }
 
     @Override
