@@ -16,8 +16,6 @@ public class Menu {
         this.filmeView = new FilmeView(filmeService);
         this.serieView = new SerieView(serieService);
 
-        //this.serieView = new SerieView(new SerieServiceImpl(carregarDados.toString()));
-
     }
 
     public void exibirMenuPrincipal() {
