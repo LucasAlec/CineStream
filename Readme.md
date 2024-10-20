@@ -77,7 +77,7 @@ CarregarDadosFilmesImpl e CarregarDadosSeriesImpl
 ## Conclusão 🔚
 O CineStream é um projeto robusto que demonstra como manipular grandes volumes de dados de forma eficiente e organizada, utilizando as mais avançadas técnicas de programação em Java. Os conceitos de interfaces funcionais, lambdas, streams, generics e tratamento de exceções são aplicados para criar uma aplicação flexível e fácil de manter.
 
-Esperamos que o CineStream seja útil e inspire outros desenvolvedores a explorar e utilizar essas técnicas em seus próprios projetos. Se tiver alguma dúvida ou sugest
+Esperamos que o CineStream seja útil e inspire outros desenvolvedores a explorar e utilizar essas técnicas em seus próprios projetos. Se tiver alguma dúvida ou sugestão, sinta-se à vontade para entrar em contato!
 ### Realizadores do Projeto 💡
 - [`Priscila Santos`](https://github.com/Priscila-Santos)
 - [`Lucas Alecsander`](https://github.com/LucasAlec)
