@@ -1,7 +1,3 @@
-
-//import database.CarregarDadosImpl;
-import service.filme.FilmeService;
-
 import service.filme.FilmeServiceImpl;
 import service.serie.SerieServiceImpl;
 import view.Menu;
