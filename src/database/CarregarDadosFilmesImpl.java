@@ -18,7 +18,7 @@ public class CarregarDadosFilmesImpl implements CarregarDados<Filme> {
                 .stream()
                 .skip(1) // Ignora a primeira linha
                 .map(this::converterParaFilme)
-                .filter(filme -> filme != null) // Filtra filmes inválidos
+                .filter(filme -> filme != null) // Filtra filmes inválidosss
                 .collect(Collectors.toList());
     }
 
