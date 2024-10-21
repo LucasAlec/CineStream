@@ -1,6 +1,7 @@
 package view;
 
 
+import exception.OpcaoInvalidaException;
 import service.filme.FilmeService;
 import service.serie.SerieService;
 import service.serie.SerieServiceImpl;
@@ -51,10 +52,12 @@ public class Menu {
                         System.out.println("👋 Saindo... Até logo!");
                         break;
                     default:
-                        System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
+                        throw new OpcaoInvalidaException("Opção inválida. Por favor, escolha uma opção válida.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("❌ Entrada inválida. Por favor, digite um número.");
+            } catch (OpcaoInvalidaException e){
+                System.out.println(e.getMessage());
             }
         }
 
