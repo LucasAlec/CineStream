@@ -1,17 +1,22 @@
 package view;
 
 
+import exception.OpcaoInvalidaException;
 import service.filme.FilmeService;
+import service.serie.SerieService;
+import service.serie.SerieServiceImpl;
 
 import java.util.Scanner;
 
 public class Menu {
 
     private FilmeView filmeView;
+    private SerieView serieView;
 
-    public Menu(FilmeService filmeService) {
+    public Menu(FilmeService filmeService, SerieServiceImpl serieService) {
         this.filmeView = new FilmeView(filmeService);
-        //this.serieView = new SerieView(new SerieServiceImpl(carregarDados));
+        this.serieView = new SerieView(serieService);
+
     }
 
     public void exibirMenuPrincipal() {
@@ -39,17 +44,20 @@ public class Menu {
                         filmeView.exibirFilmeView();
                         break;
                     case 2:
-                        System.out.println("Implementar SerieView");
+                        serieView.exibirSerieView();
+                        //System.out.println("Implementar SerieView");
                         break;
                     case 3:
                         continuar = false;
                         System.out.println("👋 Saindo... Até logo!");
                         break;
                     default:
-                        System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
+                        throw new OpcaoInvalidaException("Opção inválida. Por favor, escolha uma opção válida.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("❌ Entrada inválida. Por favor, digite um número.");
+            } catch (OpcaoInvalidaException e){
+                System.out.println(e.getMessage());
             }
         }
 

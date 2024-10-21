@@ -1,11 +1,12 @@
 package util;
 
 import model.Filme;
+import model.Serie;
 import view.FilmeView;
+
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class PaginacaoUtil {
 
@@ -23,16 +24,14 @@ public class PaginacaoUtil {
             System.out.printf("           🎬 Página %d 🎬           \n", paginaAtual + 1);
             System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
-            // Cria uma lista formatada dos filmes
-            List<String> filmesFormatados = filmes.subList(inicio, fim).stream()
-                    .map(filme -> String.format("🎬 %s (%d) - Avaliação: %s",
-                            filme.getNome(), filme.getAno(),
-                            FormatoUtil.converterAvaliacaoEmEstrelas(filme.getAvaliacao())))
-                    .collect(Collectors.toList());
-
-            // Exibe os filmes formatados
-            for (int i = 0; i < filmesFormatados.size(); i++) {
-                System.out.printf("%d - %s\n", inicio + i + 1, filmesFormatados.get(i));
+            // Exibe os filmes com números para seleção
+            for (int i = inicio; i < fim; i++) {
+                // Exibe apenas o nome, ano e avaliação do filme
+                System.out.printf("%d - 🎬 %s (%d) - Avaliação: %s\n",
+                        i + 1,
+                        filmes.get(i).getNome(),
+                        filmes.get(i).getAno(),
+                        FormatoUtil.converterAvaliacaoEmEstrelas(filmes.get(i).getAvaliacao()));
             }
 
             // Informações da página
@@ -82,4 +81,55 @@ public class PaginacaoUtil {
         }
     }
 
+
+    public static void exibirSeriesPaginadas(List<Serie> series, Scanner scanner) {
+        int totalSeries = series.size();
+        int seriesPorPagina = 3;  // Exibindo 3 filmes por página
+        int paginaAtual = 0;
+        boolean continuar = true;
+
+        while (continuar) {
+            int inicio = paginaAtual * seriesPorPagina;
+            int fim = Math.min(inicio + seriesPorPagina, totalSeries);
+
+            System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            System.out.printf("           🎬 Página %d 🎬           \n", paginaAtual + 1);
+            System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+            for (int i = inicio; i < fim; i++) {
+                SeriesUtil.exibirInfoSerie(series.get(i));
+            }
+
+            System.out.println("\n📄 Página " + (paginaAtual + 1) + " de " + ((totalSeries + seriesPorPagina - 1) / seriesPorPagina));
+            System.out.print("\n➡️ Digite 'P' para próxima página, 'A' para anterior, ou 'S' para sair: ");
+            String comando = scanner.nextLine().toLowerCase();
+
+            switch (comando) {
+                case "p":
+                    if (fim < totalSeries) {
+                        paginaAtual++;
+                    } else {
+                        System.out.println("⚠️ Você já está na última página.");
+                    }
+                    break;
+                case "a":
+                    if (paginaAtual > 0) {
+                        paginaAtual--;
+                    } else {
+                        System.out.println("⚠️ Você já está na primeira página.");
+                    }
+                    break;
+                case "s":
+                    continuar = false;
+                    System.out.println("👋 Saindo da exibição de filmes...");
+                    break;
+                default:
+                    System.out.println("⚠️ Comando inválido. Por favor, use 'n', 'p' ou 's'.");
+                    break;
+            }
+        }
+    }
 }
+
+
+

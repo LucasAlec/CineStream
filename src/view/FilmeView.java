@@ -1,5 +1,9 @@
 package view;
 
+import exception.AnoInvalidoException;
+import exception.FilmeNaoEncontradoException;
+import exception.FilmesIndisponiveisException;
+import exception.OpcaoInvalidaException;
 import model.Filme;
 import service.filme.FilmeService;
 import util.FilmesUtil;
@@ -55,10 +59,12 @@ public class FilmeView {
                         System.out.println("Voltando ao menu principal...");
                         break;
                     default:
-                        System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
+                        throw new OpcaoInvalidaException("Opção inválida. Por favor, escolha uma opção válida.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println(" ❌ Entrada inválida. Por favor, digite um número.");
+            } catch (OpcaoInvalidaException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
@@ -69,16 +75,21 @@ public class FilmeView {
 
         List<Filme> filmesEncontrados = filmeService.buscarFilmesPorNome(nome);
 
-        if (filmesEncontrados.isEmpty()) {
-            System.out.println("⚠️ Nenhum filme encontrado com esse nome.");
-        } else {
-            List<String> filmesFormatados = filmesEncontrados.stream()
-                    .map(filme -> String.format("🎬 %s (%d) - Avaliação: %s",
-                            filme.getNome(), filme.getAno(),
-                            FormatoUtil.converterAvaliacaoEmEstrelas(filme.getAvaliacao())))
-                    .collect(Collectors.toList());
+        try {
+            if (filmesEncontrados.isEmpty()) {
+                throw new FilmeNaoEncontradoException("⚠️ Nenhum filme encontrado com esse nome.");
+            } else {
+                List<String> filmesFormatados = filmesEncontrados.stream()
+                        .map(filme -> String.format("🎬 %s (%d) - Avaliação: %s",
+                                filme.getNome(), filme.getAno(),
+                                FormatoUtil.converterAvaliacaoEmEstrelas(filme.getAvaliacao())))
+                        .collect(Collectors.toList());
 
-            PaginacaoUtil.exibirFilmesPaginados(filmesEncontrados, scanner, this);
+                // Exibe os filmes formatados com paginação
+                PaginacaoUtil.exibirFilmesPaginados(filmesEncontrados, scanner, this);
+            }
+        } catch (FilmeNaoEncontradoException e){
+            System.out.println(e.getMessage());
         }
     }
 
@@ -86,6 +97,12 @@ public class FilmeView {
         System.out.print("Digite o ano para buscar filmes: ");
         try {
             int ano = Integer.parseInt(scanner.nextLine());
+
+            // o primeiro filme lançado na história foi em 1888
+            if (ano < 1888 || ano > 2024) {
+                throw new AnoInvalidoException("⚠\uFE0F Ano inválido. Por favor, digite um ano até 2024.");
+            }
+
             List<Filme> filmes = filmeService.buscarFilmesPorAno(ano);
             if (filmes.isEmpty()) {
                 System.out.println("Nenhum filme encontrado para o ano informado.");
@@ -95,6 +112,8 @@ public class FilmeView {
             }
         } catch (NumberFormatException e) {
             System.out.println("Entrada inválida. Por favor, digite um ano válido.");
+        } catch (AnoInvalidoException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -108,35 +127,44 @@ public class FilmeView {
         System.out.print("Digite o número do gênero para sugerir filmes: ");
         int escolha = Integer.parseInt(scanner.nextLine());
 
-        if (escolha > 0 && escolha <= generosDisponiveis.size()) {
-            String generoSelecionado = generosDisponiveis.get(escolha - 1);
-            List<Filme> filmes = filmeService.sugerirFilmesPorGenero(generoSelecionado);
+        try {
+            if (escolha > 0 && escolha <= generosDisponiveis.size()) {
+                String generoSelecionado = generosDisponiveis.get(escolha - 1);
+                List<Filme> filmes = filmeService.sugerirFilmesPorGenero(generoSelecionado);
 
-            if (!filmes.isEmpty()) {
-                PaginacaoUtil.exibirFilmesPaginados(filmes, scanner, this);
+                if (!filmes.isEmpty()) {
+                    PaginacaoUtil.exibirFilmesPaginados(filmes, scanner, this);
+                } else {
+                    System.out.println("⚠️ Nenhum filme encontrado para o gênero selecionado.");
+                }
             } else {
-                System.out.println("⚠️ Nenhum filme encontrado para o gênero selecionado.");
+                throw new OpcaoInvalidaException("⚠️ Opção inválida. Por favor, escolha um número da lista.");
             }
-        } else {
-            System.out.println("⚠️ Opção inválida. Por favor, escolha um número da lista.");
+        } catch (OpcaoInvalidaException e){
+            System.out.println(e.getMessage());
         }
     }
 
     private void mostrarMelhorFilme(Scanner scanner) {
         Filme melhorFilme = filmeService.encontrarMelhorFilme();
-        if (melhorFilme != null) {
-            System.out.println("O melhor filme é:");
-            FilmesUtil.exibirInfoFilme(melhorFilme);
 
-            System.out.print("Deseja assistir a este filme? (s/n): ");
-            String resposta = scanner.nextLine().trim().toLowerCase();
-            if (resposta.equals("s")) {
-                assistirFilme(melhorFilme);
+        try {
+            if (melhorFilme != null) {
+                System.out.println("O melhor filme é:");
+                FilmesUtil.exibirInfoFilme(melhorFilme);
+
+                System.out.print("Deseja assistir a este filme? (s/n): ");
+                String resposta = scanner.nextLine().trim().toLowerCase();
+                if (resposta.equals("s")) {
+                    assistirFilme(melhorFilme);
+                } else {
+                    System.out.println("🔙 Voltando ao menu principal...");
+                }
             } else {
-                System.out.println("🔙 Voltando ao menu principal...");
+                throw new FilmesIndisponiveisException("Não há filmes disponíveis no momento.");
             }
-        } else {
-            System.out.println("Não há filmes disponíveis no momento.");
+        } catch (FilmesIndisponiveisException e) {
+            System.out.println(e.getMessage());
         }
     }
 
