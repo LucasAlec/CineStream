@@ -4,8 +4,10 @@ import exception.AnoInvalidoException;
 import exception.OpcaoInvalidaException;
 import exception.SerieNaoEncontradaException;
 import exception.SeriesIndisponiveisException;
+import model.Filme;
 import model.Serie;
 import service.serie.SerieService;
+import util.FilmesUtil;
 import util.SeriesUtil;
 import util.GeneroUtil;
 import util.PaginacaoUtil;
@@ -31,7 +33,8 @@ public class SerieView {
             System.out.println("|  2️⃣ →  📅 Buscar por ano de estréia              |");
             System.out.println("|  3️⃣ →  🎭 Sugerir por gênero                     |");
             System.out.println("|  4️⃣ →  🏆 Melhor série                           |");
-            System.out.println("|  5️⃣ →  🔄 Voltar ao menu principal               |");
+            System.out.println("|  5️⃣ → 📃 Listar todas as series                  |");
+            System.out.println("|  6️⃣ →  🔄 Voltar ao menu principal               |");
             System.out.println("+--------------------------------------------------+");
             System.out.print("📝 Escolha uma opção: ");
             try {
@@ -50,6 +53,9 @@ public class SerieView {
                         mostrarMelhorSerie();
                         break;
                     case 5:
+                        listarTodasSeries(scanner);
+                        break;
+                    case 6:
                         continuar = false;
                         System.out.println("Voltando ao menu principal...");
                         break;
@@ -144,6 +150,13 @@ public class SerieView {
         }
     }
 
-
+    public void listarTodasSeries(Scanner scanner) {
+        List<Serie> todosAsSeries = serieService.obterTodasSeries();
+        if (todosAsSeries.isEmpty()) {
+            System.out.println("⚠️ Não há series disponíveis.");
+        } else {
+            SeriesUtil.exibirTodasSeries(todosAsSeries, scanner, this);
+        }
+    }
 }
 

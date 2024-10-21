@@ -10,4 +10,5 @@ public interface SerieService {
     List<Serie> buscarSeriesPorAno(int ano);
     List<Serie> sugerirSeriesPorGenero(String genero);
     Serie encontrarMelhorSerie();
+    List<Serie> obterTodasSeries();
 }
