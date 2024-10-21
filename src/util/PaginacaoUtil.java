@@ -3,6 +3,7 @@ package util;
 import model.Filme;
 import model.Serie;
 import view.FilmeView;
+import view.SerieView;
 
 
 import java.util.List;
@@ -84,7 +85,7 @@ public class PaginacaoUtil {
     }
 
 
-    public static void exibirSeriesPaginadas(List<Serie> series, Scanner scanner) {
+    public static void exibirSeriesPaginadas(List<Serie> series, Scanner scanner, SerieView serieView) {
         int totalSeries = series.size();
         int seriesPorPagina = 3;  // Exibindo 3 filmes por página
         int paginaAtual = 0;
@@ -132,6 +133,3 @@ public class PaginacaoUtil {
         }
     }
 }
-
-
-
