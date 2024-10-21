@@ -2,11 +2,15 @@ package service.serie;
 
 import database.CarregarDados;
 import database.CarregarDadosSeriesImpl;
+import model.Filme;
 import model.Serie;
+import util.PaginacaoUtil;
 import util.QuantidadeAvaliacoesUtil;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class SerieServiceImpl implements SerieService {
@@ -23,6 +27,7 @@ public class SerieServiceImpl implements SerieService {
                 .filter(serie -> serie.getNome().toLowerCase().startsWith(nome.toLowerCase()))
                 .collect(Collectors.toList());
     }
+
 
     @Override
     public List<Serie> buscarSeriesPorAno(int ano) {
@@ -69,5 +74,10 @@ public class SerieServiceImpl implements SerieService {
                 return 0;
             }
         }
+    }
+
+    @Override
+    public List<Serie> obterTodasSeries() {
+        return new ArrayList<>(series);
     }
 }

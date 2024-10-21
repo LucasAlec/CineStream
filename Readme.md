@@ -99,9 +99,13 @@ CarregarDadosFilmesImpl e CarregarDadosSeriesImpl
 
 `view`: Contém a identidade visual do projeto, com os layouts do menu exibido para o usuário e a formatação da exibição do conteúdo estilizada.
 
-### View do Projeto 📱
-![menu CineStream.png](img/menu CineStream.png)
-![menu filme.png](img/menu filme.png)
+## Visão Geral do Projeto 📱
+
+<p align="center">
+  <img src="img/Menu-CineStream.png" alt="Menu CineStream" width="300" />
+  <img src="img/Menu-Filme.png" alt="Menu Filme" width="300" />
+</p>
+
 ## Conclusão 🔚
 O CineStream é um projeto que demonstra como manipular grandes volumes de dados de forma eficiente e organizada, utilizando técnicas de programação em Java. Os conceitos de interfaces funcionais, lambdas, streams, generics e tratamento de exceções são aplicados para criar uma aplicação flexível e fácil de manter.
 
