@@ -72,7 +72,8 @@ public class SerieView {
             if (series.isEmpty()) {
                 throw new SerieNaoEncontradaException("Nenhuma série encontrada com esse nome.");
             } else {
-                series.forEach(SeriesUtil::exibirInfoSerie);
+                PaginacaoUtil.exibirSeriesPaginadas(series, scanner, this);
+               // series.forEach(SeriesUtil::exibirInfoSerie);
             }
         } catch (SerieNaoEncontradaException e) {
             System.out.println(e.getMessage());
@@ -93,7 +94,8 @@ public class SerieView {
             if (series.isEmpty()) {
                 System.out.println("Nenhuma série encontrada para o ano informado.");
             } else {
-                series.forEach(SeriesUtil::exibirInfoSerie);
+                PaginacaoUtil.exibirSeriesPaginadas(series, scanner, this);
+                //series.forEach(SeriesUtil::exibirInfoSerie);
             }
         } catch (NumberFormatException e) {
             System.out.println("Entrada inválida. Por favor, digite um ano válido.");
@@ -115,7 +117,7 @@ public class SerieView {
                 String generoSelecionado = generosDisponiveis.get(escolha - 1);
                 List<Serie> series = serieService.sugerirSeriesPorGenero(generoSelecionado);
                 if (!series.isEmpty()) {
-                    PaginacaoUtil.exibirSeriesPaginadas(series, scanner);
+                    PaginacaoUtil.exibirSeriesPaginadas(series, scanner, this);
                 } else {
                     System.out.println("⚠️ Nenhuma série encontrada para o gênero selecionado.");
                 }
@@ -141,5 +143,7 @@ public class SerieView {
             System.out.println(e.getMessage());
         }
     }
+
+
 }
 

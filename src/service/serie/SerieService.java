@@ -3,6 +3,7 @@ package service.serie;
 import model.Serie;
 
 import java.util.List;
+import java.util.Scanner;
 
 public interface SerieService {
     List<Serie> buscarSeriePorNome(String nome);
