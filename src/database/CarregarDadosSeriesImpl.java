@@ -55,6 +55,9 @@ public class CarregarDadosSeriesImpl implements CarregarDados<Serie> {
             quantidadeAvaliacoes = "0"; // Define um valor padrão
         }
 
+        streamingService = dados[5];
+        url = dados[3];
+
         try {
             temporadas = Integer.parseInt(dados[6]);
             episodios = Integer.parseInt(dados[7]);
@@ -64,6 +67,6 @@ public class CarregarDadosSeriesImpl implements CarregarDados<Serie> {
             episodios = 0;
         }
 
-        return new Serie(nome, genero, avaliacao, quantidadeAvaliacoes, ano, streamingService, temporadas, episodios);
+        return new Serie(nome, genero, avaliacao, quantidadeAvaliacoes, url, ano,streamingService, temporadas, episodios);
     }
 }
