@@ -174,12 +174,12 @@ public class FilmeView {
     }
 
     public void assistirFilme(Filme filme) {
-        System.out.println("\n🎬 Iniciando o filme: " + filme.getNome() + "...");
         String[] mensagens = {
-                "* Limpando a prateleira de filmes...",
-                "* Procurando filmes...",
-                "* Organizando...",
-                "* Iniciando Filme..."
+                "🧹 Limpando a prateleira de filmes...",
+                "📦 Organizando...",
+                "🔍 Procurando...",
+                "✅ Filme encontrado!",
+                "🎬 Iniciando o filme: " + filme.getNome() + "..."
         };
 
         for (String mensagem : mensagens) {
@@ -191,7 +191,7 @@ public class FilmeView {
             }
         }
 
-        System.out.println("🔁 Aproveite o filme! 🎥");
+        System.out.println("\n🍿 Aproveite o filme! 🎥");
         System.exit(0);
     }
 }
