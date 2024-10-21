@@ -78,7 +78,6 @@ public class FilmeView {
                             FormatoUtil.converterAvaliacaoEmEstrelas(filme.getAvaliacao())))
                     .collect(Collectors.toList());
 
-            // Exibe os filmes formatados com paginação
             PaginacaoUtil.exibirFilmesPaginados(filmesEncontrados, scanner, this);
         }
     }

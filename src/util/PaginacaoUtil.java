@@ -5,6 +5,7 @@ import view.FilmeView;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class PaginacaoUtil {
 
@@ -22,14 +23,16 @@ public class PaginacaoUtil {
             System.out.printf("           🎬 Página %d 🎬           \n", paginaAtual + 1);
             System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
-            // Exibe os filmes com números para seleção
-            for (int i = inicio; i < fim; i++) {
-                // Exibe apenas o nome, ano e avaliação do filme
-                System.out.printf("%d - 🎬 %s (%d) - Avaliação: %s\n",
-                        i + 1,
-                        filmes.get(i).getNome(),
-                        filmes.get(i).getAno(),
-                        FormatoUtil.converterAvaliacaoEmEstrelas(filmes.get(i).getAvaliacao()));
+            // Cria uma lista formatada dos filmes
+            List<String> filmesFormatados = filmes.subList(inicio, fim).stream()
+                    .map(filme -> String.format("🎬 %s (%d) - Avaliação: %s",
+                            filme.getNome(), filme.getAno(),
+                            FormatoUtil.converterAvaliacaoEmEstrelas(filme.getAvaliacao())))
+                    .collect(Collectors.toList());
+
+            // Exibe os filmes formatados
+            for (int i = 0; i < filmesFormatados.size(); i++) {
+                System.out.printf("%d - %s\n", inicio + i + 1, filmesFormatados.get(i));
             }
 
             // Informações da página
@@ -78,4 +81,5 @@ public class PaginacaoUtil {
             }
         }
     }
+
 }
