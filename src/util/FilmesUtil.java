@@ -1,10 +1,8 @@
 package util;
-
 import model.Filme;
-
+import view.FilmeView;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class FilmesUtil {
 
@@ -31,43 +29,82 @@ public class FilmesUtil {
         System.out.println(linha);
     }
 
-    public static void exibirESelecionarFilmes(List<Filme> filmes, Scanner scanner) {
+    public static void exibirTodosFilmes(List<Filme> filmes, Scanner scanner, FilmeView filmeView) {
         if (filmes.isEmpty()) {
             System.out.println("⚠️ Nenhum filme encontrado.");
             return;
         }
 
-        // Usa o map para formatar os filmes
-        List<String> filmesFormatados = filmes.stream()
-                .map(filme -> String.format("🎬 %s (%d) - Avaliação: %s",
-                        filme.getNome(), filme.getAno(),
-                        FormatoUtil.converterAvaliacaoEmEstrelas(filme.getAvaliacao())))
-                .collect(Collectors.toList());
+        int filmesPorPagina = 10; // Exibindo 3 filmes por página
+        int totalPaginas = (int) Math.ceil((double) filmes.size() / filmesPorPagina);
+        int paginaAtual = 0;
+        boolean continuar = true;
 
-        // Exibe os filmes formatados com numeração
-        System.out.println("\nFilmes encontrados:");
-        for (int i = 0; i < filmesFormatados.size(); i++) {
-            System.out.printf("%d - %s\n", i + 1, filmesFormatados.get(i));
-        }
+        while (continuar) {
+            int inicio = paginaAtual * filmesPorPagina;
+            int fim = Math.min(inicio + filmesPorPagina, filmes.size());
 
-        // Permite que o usuário selecione um filme para ver mais informações
-        System.out.print("Digite o número do filme para ver mais informações ou 's' para sair: ");
-        String comando = scanner.nextLine().trim().toLowerCase();
+            System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            System.out.printf("           🎬 Página %d 🎬           \n", paginaAtual + 1);
+            System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 
-        if (comando.equals("s")) {
-            System.out.println("👋 Saindo da exibição de filmes...");
-            return; // Volta ao menu
-        }
-
-        try {
-            int numeroFilme = Integer.parseInt(comando);
-            if (numeroFilme >= 1 && numeroFilme <= filmes.size()) {
-                exibirInfoFilme(filmes.get(numeroFilme - 1));
-            } else {
-                System.out.println("⚠️ Número inválido. Por favor, escolha um número da lista.");
+            // Exibe os filmes com números para seleção
+            for (int i = inicio; i < fim; i++) {
+                // Exibe apenas o nome, ano e avaliação do filme
+                System.out.printf("%d - 🎬 %s (%d) - Avaliação: %s\n",
+                        i + 1,
+                        filmes.get(i).getNome(),
+                        filmes.get(i).getAno(),
+                        FormatoUtil.converterAvaliacaoEmEstrelas(filmes.get(i).getAvaliacao()));
             }
-        } catch (NumberFormatException e) {
-            System.out.println("⚠️ Comando inválido. Por favor, use um número.");
+
+            System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+            // Informações da página
+            System.out.printf("         📄 Página %d de %d\n\n", paginaAtual + 1, totalPaginas);
+
+            // Comandos de navegação
+            System.out.print("➡️ Digite 'P' para próxima página, 'A' para anterior, ou 'S' para sair, ou o número do filme para mais informações: ");
+            String comando = scanner.nextLine().toLowerCase();
+
+            if (comando.equals("p")) {
+                if (fim < filmes.size()) {
+                    paginaAtual++; // Avança para a próxima página
+                } else {
+                    System.out.println("⚠️ Você já está na última página.");
+                }
+            } else if (comando.equals("a")) {
+                if (paginaAtual > 0) {
+                    paginaAtual--; // Retorna para a página anterior
+                } else {
+                    System.out.println("⚠️ Você já está na primeira página.");
+                }
+            } else if (comando.equals("s")) {
+                continuar = false; // Sai da exibição
+                System.out.println("👋 Saindo da exibição de filmes...");
+            } else {
+                // Verifica se o comando é um número para seleção
+                try {
+                    int numeroFilme = Integer.parseInt(comando);
+                    int indexFilme = inicio + numeroFilme - 1; // Ajusta o índice para a página atual
+                    if (numeroFilme > 0 && indexFilme < filmes.size()) {
+                        Filme filmeSelecionado = filmes.get(indexFilme);
+                        // Exibe informações detalhadas do filme
+                        FilmesUtil.exibirInfoFilme(filmeSelecionado);
+
+                        // Pergunta se deseja assistir ao filme
+                        System.out.print("Deseja assistir a este filme? (s/n): ");
+                        String assistir = scanner.nextLine().toLowerCase();
+                        if (assistir.equals("s")) {
+                            filmeView.assistirFilme(filmeSelecionado); // Método para assistir ao filme
+                        }
+                    } else {
+                        System.out.println("⚠️ Número inválido. Por favor, escolha um número da lista.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("⚠️ Comando inválido. Por favor, use 'P', 'A' ou um número.");
+                }
+            }
         }
     }
 

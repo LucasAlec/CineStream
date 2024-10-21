@@ -25,15 +25,15 @@ public class SerieView {
         boolean continuar = true;
         while (continuar) {
             System.out.println("\n+--------------------------------------------------+");
-            System.out.println("|                    Séries                        |");
+            System.out.println("|                  🎬 Séries 🎬                    |");
             System.out.println("+--------------------------------------------------+");
-            System.out.println("|  1️⃣ →  Buscar séries por nome                    |");
-            System.out.println("|  2️⃣ →  Buscar por ano de estréia                 |");
-            System.out.println("|  3️⃣ →  Sugerir por gênero                        |");
-            System.out.println("|  4️⃣ →  Melhor série                              |");
-            System.out.println("|  5️⃣ →  Voltar ao menu principal                  |");
+            System.out.println("|  1️⃣ → 🔎 Buscar séries por nome                  |");
+            System.out.println("|  2️⃣ →  📅 Buscar por ano de estréia              |");
+            System.out.println("|  3️⃣ →  🎭 Sugerir por gênero                     |");
+            System.out.println("|  4️⃣ →  🏆 Melhor série                           |");
+            System.out.println("|  5️⃣ →  🔄 Voltar ao menu principal               |");
             System.out.println("+--------------------------------------------------+");
-            System.out.print(" Escolha uma opção: ");
+            System.out.print("📝 Escolha uma opção: ");
             try {
                 int opcao = Integer.parseInt(scanner.nextLine());
                 switch (opcao) {

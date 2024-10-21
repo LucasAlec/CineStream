@@ -5,6 +5,7 @@ import database.CarregarDadosFilmesImpl;
 import model.Filme;
 import util.QuantidadeAvaliacoesUtil;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +14,6 @@ public class FilmeServiceImpl implements FilmeService {
 
     private List<Filme> filmes;
 
-    // Construtor usando apenas o caminho para o CSV de filmes
     public FilmeServiceImpl(String caminhoCsvFilmes) {
         CarregarDados carregarDados = new CarregarDadosFilmesImpl(caminhoCsvFilmes);
         this.filmes = carregarDados.carregarDadosDoArquivo();
@@ -58,20 +58,8 @@ public class FilmeServiceImpl implements FilmeService {
                 }).orElse(null);
     }
 
-
-    // Método auxiliar para converter a quantidade de avaliações de String para número
-    private double parseQuantidadeAvaliacoes(String quantidadeAvaliacoes) {
-        if (quantidadeAvaliacoes.endsWith("k")) {
-            return Double.parseDouble(quantidadeAvaliacoes.replace("k", "")) * 1000;
-        } else if (quantidadeAvaliacoes.endsWith("M")) {
-            return Double.parseDouble(quantidadeAvaliacoes.replace("M", "")) * 1_000_000;
-        } else {
-            try {
-                return Double.parseDouble(quantidadeAvaliacoes);
-            } catch (NumberFormatException e) {
-                System.out.println("Erro ao converter quantidade de avaliações: " + quantidadeAvaliacoes);
-                return 0;
-            }
-        }
+    @Override
+    public List<Filme> obterTodosFilmes() {
+        return new ArrayList<>(filmes);
     }
 }
