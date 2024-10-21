@@ -41,7 +41,7 @@ public class CarregarDadosFilmesImpl implements CarregarDados<Filme> {
             ano = Integer.parseInt(dados[1]);
         } catch (NumberFormatException e) {
             System.out.println("Ano inválido para o filme: " + nome);
-            ano = 0; // Define um valor padrão
+            ano = 0;
         }
 
         try {
