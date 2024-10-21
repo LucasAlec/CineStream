@@ -7,13 +7,11 @@ import exception.OpcaoInvalidaException;
 import model.Filme;
 import service.filme.FilmeService;
 import util.FilmesUtil;
-import util.FormatoUtil;
 import util.GeneroUtil;
 import util.PaginacaoUtil;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class FilmeView {
     private FilmeService filmeService;
@@ -34,7 +32,8 @@ public class FilmeView {
             System.out.println("|  2️⃣ → 📅 Buscar por ano de estréia               |");
             System.out.println("|  3️⃣ → 🎭 Sugerir por gênero                      |");
             System.out.println("|  4️⃣ → 🏆 Melhor filme                            |");
-            System.out.println("|  5️⃣ → 🔄 Voltar ao menu principal                |");
+            System.out.println("|  5️⃣ → 📃 Listar todos os filmes                  |");
+            System.out.println("|  6️⃣ → 🔄 Voltar ao menu principal                |");
             System.out.println("+--------------------------------------------------+");
             System.out.print("📝 Escolha uma opção: ");
 
@@ -55,6 +54,9 @@ public class FilmeView {
                         mostrarMelhorFilme(scanner);
                         break;
                     case 5:
+                        listarTodosFilmes(scanner);
+                        break;
+                    case 6:
                         continuar = false;
                         System.out.println("Voltando ao menu principal...");
                         break;
@@ -79,12 +81,6 @@ public class FilmeView {
             if (filmesEncontrados.isEmpty()) {
                 throw new FilmeNaoEncontradoException("⚠️ Nenhum filme encontrado com esse nome.");
             } else {
-                List<String> filmesFormatados = filmesEncontrados.stream()
-                        .map(filme -> String.format("🎬 %s (%d) - Avaliação: %s",
-                                filme.getNome(), filme.getAno(),
-                                FormatoUtil.converterAvaliacaoEmEstrelas(filme.getAvaliacao())))
-                        .collect(Collectors.toList());
-
                 // Exibe os filmes formatados com paginação
                 PaginacaoUtil.exibirFilmesPaginados(filmesEncontrados, scanner, this);
             }
@@ -145,7 +141,7 @@ public class FilmeView {
         }
     }
 
-    private void mostrarMelhorFilme(Scanner scanner) {
+    public void mostrarMelhorFilme(Scanner scanner) {
         Filme melhorFilme = filmeService.encontrarMelhorFilme();
 
         try {
@@ -165,6 +161,15 @@ public class FilmeView {
             }
         } catch (FilmesIndisponiveisException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void listarTodosFilmes(Scanner scanner) {
+        List<Filme> todosOsFilmes = filmeService.obterTodosFilmes();
+        if (todosOsFilmes.isEmpty()) {
+            System.out.println("⚠️ Não há filmes disponíveis.");
+        } else {
+            FilmesUtil.exibirTodosFilmes(todosOsFilmes, scanner, this);
         }
     }
 

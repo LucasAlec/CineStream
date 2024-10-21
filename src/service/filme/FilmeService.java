@@ -9,4 +9,5 @@ public interface FilmeService {
     List<Filme> buscarFilmesPorAno(int ano);
     List<Filme> sugerirFilmesPorGenero(String genero);
     Filme encontrarMelhorFilme();
+    List<Filme> obterTodosFilmes();
 }

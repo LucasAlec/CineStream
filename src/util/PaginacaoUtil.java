@@ -35,8 +35,10 @@ public class PaginacaoUtil {
                         FormatoUtil.converterAvaliacaoEmEstrelas(filmes.get(i).getAvaliacao()));
             }
 
+            System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
             // Informações da página
-            System.out.printf("📄 Página %d de %d\n", paginaAtual + 1, (totalFilmes + filmesPorPagina - 1) / filmesPorPagina);
+            System.out.printf("         📄 Página %d de %d\n\n", paginaAtual + 1, (totalFilmes + filmesPorPagina - 1) / filmesPorPagina);
 
             // Comandos de navegação
             System.out.print("➡️ Digite 'P' para próxima página, 'A' para anterior, ou 'S' para sair, ou o número do filme para mais informações: ");
