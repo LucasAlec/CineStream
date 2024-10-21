@@ -1,9 +1,5 @@
 package util;
-
-import model.Filme;
-
 import java.util.List;
-import java.util.Scanner;
 
 public class GeneroUtil {
 

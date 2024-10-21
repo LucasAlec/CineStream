@@ -1,6 +1,6 @@
 # CineStream 🎬
 
-CineStream é um projeto inovador que utiliza um arquivo CSV contendo informações detalhadas sobre filmes e séries para extrair e manipular dados. Este projeto foi criado para facilitar a busca e análise de dados de filmes e séries, oferecendo uma interface de usuário simples e intuitiva.
+CineStream é um projeto que utiliza arquivos CSV contendo informações detalhadas sobre filmes e séries para extrair e manipular dados. Este projeto foi criado para facilitar a busca e análise de dados de filmes e séries, oferecendo uma interface de usuário simples e intuitiva.
 
 ## Descrição do Projeto 📜
 
@@ -38,6 +38,8 @@ public List<Serie> buscarSeriePorNome(String nome) {
 ### Streams API
 A API de Streams do Java permite processar coleções de forma declarativa e funcional, utilizando métodos como filter, map, reduce e collect para manipular dados de maneira eficiente. Por exemplo:
 
+#### Filtrando nomes pro ano:
+
 ```java
 
 @Override
@@ -47,6 +49,32 @@ public List<Filme> buscarFilmesPorAno(int ano) {
             .collect(Collectors.toList());
 }
 ```
+Nesse exemplo, utilizamos o método `filter para selecionar apenas os filmes que foram lançados no ano especificado.
+
+
+#### Mapeando Filmes pora Exibição:
+
+```java
+List<String> filmesFormatados = filmes.stream()
+        .map(filme -> String.format("🎬 %s (%d) - Avaliação: %s",
+                filme.getNome(), filme.getAno(),
+                FormatoUtil.converterAvaliacaoEmEstrelas(filme.getAvaliacao())))
+        .collect(Collectors.toList());
+```
+
+Usamos `map` para transformar cada objeto Filme` em uma string formatada para exibição ao usuário.
+
+#### Encontrando o Filme com a Melhor Avaliação:
+
+```java
+Filme melhorFilme = filmes.stream()
+    .reduce((filme1, filme2) -> filme1.getAvaliacao() > filme2.getAvaliacao() ? filme1 : filme2)
+    .orElse(null);
+```
+Utilizamos reduce` para encontrar o filme com a maior avaliação na coleção de filmes.
+
+
+
 ### Generics
 Generics foram utilizados para criar métodos e classes que podem operar com diferentes tipos de dados sem duplicação de código. Isso é evidente na interface CarregarDados, que utiliza generics para definir métodos que podem carregar dados de filmes e séries.
 ```java
@@ -75,10 +103,14 @@ CarregarDadosFilmesImpl e CarregarDadosSeriesImpl
 ![menu CineStream.png](img/menu CineStream.png)
 ![menu filme.png](img/menu filme.png)
 ## Conclusão 🔚
-O CineStream é um projeto robusto que demonstra como manipular grandes volumes de dados de forma eficiente e organizada, utilizando as mais avançadas técnicas de programação em Java. Os conceitos de interfaces funcionais, lambdas, streams, generics e tratamento de exceções são aplicados para criar uma aplicação flexível e fácil de manter.
+O CineStream é um projeto que demonstra como manipular grandes volumes de dados de forma eficiente e organizada, utilizando técnicas de programação em Java. Os conceitos de interfaces funcionais, lambdas, streams, generics e tratamento de exceções são aplicados para criar uma aplicação flexível e fácil de manter.
 
 Esperamos que o CineStream seja útil e inspire outros desenvolvedores a explorar e utilizar essas técnicas em seus próprios projetos. Se tiver alguma dúvida ou sugestão, sinta-se à vontade para entrar em contato!
 ### Realizadores do Projeto 💡
 - [`Priscila Santos`](https://github.com/Priscila-Santos)
 - [`Lucas Alecsander`](https://github.com/LucasAlec)
 - [`Lucas Salvador do Carmo`](https://github.com/lucksc2805)
+
+
+### Referencias
+https://github.com/Wolverine-Shiva/Web-Scraping-www.JustWatch.com
