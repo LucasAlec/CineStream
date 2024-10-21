@@ -6,7 +6,6 @@ public class SeriesUtil {
     public static void exibirInfoSerie(Serie serie) {
         String titulo = "Título: " + serie.getNome();
         String genero = "Gênero: " + GeneroUtil.obterGeneroComEmoji(serie.getGenero());
-        // Exibe a avaliação com estrelas e a quantidade de avaliações entre parênteses
         String avaliacao = "Avaliação: " + FormatoUtil.converterAvaliacaoEmEstrelas(serie.getAvaliacao()) +
                 " (" + serie.getQuantidadeAvaliacoes().replace("(", "").replace(")", "") + ")";
         String ano = "Ano: " + serie.getAno();
